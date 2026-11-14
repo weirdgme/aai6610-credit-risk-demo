@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A historical credit-risk model demonstration for AAI6610 using synthetic profiles.">
+  <title>Credit risk model demonstration</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+<main>
+  <header><p class="eyebrow">AAI6610 · MODULE 10</p><h1>Credit risk model demonstration</h1>
+    <p class="intro">Explore how a historical model responds to a synthetic profile.</p>
+    <p class="notice">For coursework only. Use invented values. This model is not validated for lending decisions.</p>
+  </header>
+  <section class="workspace" aria-label="Profile and model result">
+    <form id="profile-form" novalidate>
+      <div class="section-top"><h2>Synthetic profile</h2><button type="button" id="reset">Reset example</button></div>
+      <label for="example">Start with an example</label>
+      <select id="example"><option value="0">Consistent payments</option><option value="1">Recent payment delays</option><option value="2">Some blank numeric fields</option></select>
+      <p class="helper">Amounts use New Taiwan dollars, matching the source dataset. Blank numeric fields use the original training medians.</p>
+      <fieldset><legend>Account and historical categories</legend><div id="profile-fields" class="fields"></div></fieldset>
+      <fieldset><legend>Repayment status over six months</legend><p class="helper">Most recent month first. Codes 0 and -2 are retained as recorded in the historical data.</p><div id="status-fields" class="fields"></div></fieldset>
+      <fieldset><legend>Bill and payment amounts</legend><div id="amount-fields" class="fields amounts"></div></fieldset>
+      <button class="primary" id="calculate" type="submit" disabled>Calculate score</button>
+    </form>
+    <aside class="result-panel" aria-label="Model output">
+      <h2>Model result</h2>
+      <div id="loading" role="status">Loading the historical model…</div>
+      <div id="result" aria-live="polite" aria-atomic="true" hidden></div>
+      <div id="error" role="alert" hidden></div>
+      <p class="privacy">Scoring runs in your browser. Profile values are not sent to a server or stored by this app.</p>
+      <details><summary>What this result means</summary><p>The score is the network’s output for default in the source population. It is not a calibrated estimate of anyone’s current financial risk. A class label uses the original fixed 0.5 threshold.</p>
+        <p>In the previously examined test set, default recall was 35.42%. A nondefault label therefore does not rule out default.</p>
+        <p>The source includes demographic variables. Fairness and suitability for present-day use have not been established.</p></details>
+      <details><summary>Model and source</summary><div id="model-info"></div>
+        <p><a href="https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients" target="_blank" rel="noopener noreferrer">UCI Default of Credit Card Clients</a> · Taiwan payment histories from 2005.</p>
+        <p>Author: Jimi Umar. AAI6610, Assignment 10.5.</p></details>
+    </aside>
+  </section>
+  <footer>Educational model demonstration · Original Module 8 fitted model · No retraining during deployment</footer>
+</main>
+</body></html>
