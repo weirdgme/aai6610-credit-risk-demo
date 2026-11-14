@@ -7,7 +7,8 @@ const fields = [
   ['EDUCATION','Education code',[[0,'0 · Unspecified'],[1,'1 · Graduate school'],[2,'2 · University'],[3,'3 · High school'],[4,'4 · Other'],[5,'5 · Other recorded code'],[6,'6 · Other recorded code']],'profile-fields'],
   ['MARRIAGE','Marital status code',[[0,'0 · Unspecified'],[1,'1 · Married'],[2,'2 · Single'],[3,'3 · Other']],'profile-fields'],
 ];
-['PAY_0','PAY_2','PAY_3','PAY_4','PAY_5','PAY_6'].forEach((name,i) => fields.push([name,`Month ${i+1} status (${name})`,Array.from({length:12},(_,j)=>[j-2,`${j-2}${j-2===-1?' · Paid duly':j-2>=1?' · Months delayed':' · Historical code'}`]),'status-fields']));
+const repaymentLabel = code => code === -1 ? '-1 · Paid duly' : code < 1 ? `${code} · Historical code` : code === 1 ? '1 · 1 month delayed' : code === 9 ? '9 · 9 or more months delayed' : `${code} · ${code} months delayed`;
+['PAY_0','PAY_2','PAY_3','PAY_4','PAY_5','PAY_6'].forEach((name,i) => fields.push([name,`Month ${i+1} status (${name})`,Array.from({length:12},(_,j)=>[j-2,repaymentLabel(j-2)]),'status-fields']));
 for(let i=1;i<=6;i++) { fields.push([`BILL_AMT${i}`,`Month ${i} bill (NT$)`,'number','amount-fields']); fields.push([`PAY_AMT${i}`,`Month ${i} payment (NT$)`,'number','amount-fields']); }
 for(const [name,label,type,section] of fields) {
   const group=document.createElement('div'); const caption=document.createElement('label'); caption.htmlFor=name; caption.textContent=label;
